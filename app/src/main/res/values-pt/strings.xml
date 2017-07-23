@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Delive</string>
+    <string name="map">Mapa</string>
+    <string name="action_settings">Configurações</string>
+    <string name="navigation_drawer_close">Fechar</string>
+    <string name="navigation_drawer_open">Abrir</string>
+    <string name="menu_text_login">Login</string>
+    <string name="menu_text_signIn">Cadastrar</string>
+</resources>
