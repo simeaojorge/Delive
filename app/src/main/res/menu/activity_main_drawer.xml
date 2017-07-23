@@ -23,13 +23,13 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_login"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_text_login" />
-            <item
                 android:id="@+id/nav_signIn"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_send"
                 android:title="@string/menu_text_signIn" />
+            <item
+                android:id="@+id/nav_signUp"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/menu_text_signUp" />
         </menu>
     </item>
 
