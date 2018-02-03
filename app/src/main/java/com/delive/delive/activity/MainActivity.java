@@ -1,6 +1,7 @@
-package com.delive.delive;
+package com.delive.delive.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.delive.delive.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
+
+        userLoggedIn(navigationView);
 
         showMap();
     }
@@ -98,10 +103,14 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_signIn) {
-
+            Intent intentLogin = new Intent(this, LoginActivity.class);
+            this.startActivity(intentLogin);
         } else if (id == R.id.nav_signUp) {
             Intent intentRegister = new Intent(this, RegisterActivity.class);
             this.startActivity(intentRegister);
+        } else if (id == R.id.nav_logout) {
+            SharedPreferences.Editor editor = getSharedPreferences("myPrefs", MODE_PRIVATE).edit();
+            editor.clear().apply();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -113,5 +122,28 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container, new MapFragment(), "Maps Fragment");
         transaction.commit();
+    }
+
+    private void userLoggedIn(NavigationView navigationView){
+
+        MenuItem vwSignIn = navigationView.getMenu().findItem(R.id.nav_signIn);
+        MenuItem vwLogout = navigationView.getMenu().findItem(R.id.nav_logout);
+
+        if(isUserLoggedIn()){
+
+            vwSignIn.setVisible(false);
+            vwLogout.setVisible(true);
+        }
+        else{
+
+            vwLogout.setVisible(false);
+            vwSignIn.setVisible(true);
+        }
+    }
+
+    private boolean isUserLoggedIn(){
+
+        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        return prefs.getString("access_token", null) != null;
     }
 }

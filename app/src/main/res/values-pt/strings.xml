@@ -13,4 +13,20 @@
     <string name="button_confirm">Confirmar</string>
     <string name="button_send">Enviar</string>
     <string name="menu_text_signUp">Cadastrar</string>
+    <string name="text_cpf">CPF</string>
+    <string name="err_name">Qual o seu nome?</string>
+    <string name="err_password">Informe uma senha</string>
+    <string name="err_confirm_password">Senhas não conferem</string>
+    <string name="err_email">Qual o seu email?</string>
+    <string name="action_sign_in">Entrar</string>
+    <string name="action_sign_in_short">Entrar</string>
+    <string name="error_field_required">Campo obrigatório</string>
+    <string name="error_incorrect_password">A senha está incorreta</string>
+    <string name="error_invalid_email">Email inválido</string>
+    <string name="error_invalid_password">Senha muito curta</string>
+    <string name="title_activity_login">Entrar</string>
+    <string name="prompt_password">Senha (opcional)</string>
+    <string name="prompt_email">Email</string>
+    <string name="permission_rationale">Necessária permissão de acesso a contatos</string>
+    <string name="menu_text_logout">Sair</string>
 </resources>

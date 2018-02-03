@@ -1,4 +1,4 @@
-package com.delive.delive;
+package com.delive.delive.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -6,19 +6,18 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class MapFragment extends SupportMapFragment implements OnMapReadyCallback, LocationSource.OnLocationChangedListener {
 
     private GoogleMap mMap;
     private LocationManager locationManager;
@@ -47,8 +46,6 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
 
-        mMap.setOnMapClickListener(this);
-
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -68,9 +65,9 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     }
 
     @Override
-    public void onMapClick(LatLng latLng) {
+    public void onLocationChanged(Location location){
 
-        Toast.makeText(getContext(), "Coordenadas: "+ latLng.toString(), Toast.LENGTH_LONG ).show();
+
     }
 
     private void moveMap(double latitude, double longitude, int zoom){
