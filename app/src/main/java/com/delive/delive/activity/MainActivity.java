@@ -1,149 +1,65 @@
 package com.delive.delive.activity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.widget.Toast;
 
 import com.delive.delive.R;
+import com.delive.delive.model.User;
+import com.delive.delive.restfull.ApiClient;
+import com.delive.delive.restfull.UserClient;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import net.rimoto.intlphoneinput.IntlPhoneInput;
 
-    private FragmentManager fragmentManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class MainActivity extends Activity {
+
+    private IntlPhoneInput phoneInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        fragmentManager = getSupportFragmentManager();
-
-        userLoggedIn(navigationView);
-
-        showMap();
+        phoneInput = findViewById(R.id.login_cellphone);
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+    public void sendNumber(View view) {
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+        if(phoneInput.isValid()){
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+            User user = new User();
+            user.setPhoneNumber(phoneInput.getNumber());
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+            UserClient client = ApiClient.create(UserClient.class);
+            final Call<User> call = client.createUser(user);
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
 
-        return super.onOptionsItemSelected(item);
-    }
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getBaseContext(), R.string.confirmation_sms, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getBaseContext(), R.string.confirmation_sms_failure, Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_map) {
-            showMap();
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_signIn) {
-            Intent intentLogin = new Intent(this, LoginActivity.class);
-            this.startActivity(intentLogin);
-        } else if (id == R.id.nav_signUp) {
-            Intent intentRegister = new Intent(this, RegisterActivity.class);
-            this.startActivity(intentRegister);
-        } else if (id == R.id.nav_logout) {
-            SharedPreferences.Editor editor = getSharedPreferences("myPrefs", MODE_PRIVATE).edit();
-            editor.clear().apply();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void showMap(){
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.container, new MapFragment(), "Maps Fragment");
-        transaction.commit();
-    }
-
-    private void userLoggedIn(NavigationView navigationView){
-
-        MenuItem vwSignIn = navigationView.getMenu().findItem(R.id.nav_signIn);
-        MenuItem vwLogout = navigationView.getMenu().findItem(R.id.nav_logout);
-
-        if(isUserLoggedIn()){
-
-            vwSignIn.setVisible(false);
-            vwLogout.setVisible(true);
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Toast.makeText(getBaseContext(), t.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         else{
-
-            vwLogout.setVisible(false);
-            vwSignIn.setVisible(true);
+            Toast.makeText(this, R.string.invalid_number, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private boolean isUserLoggedIn(){
-
-        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
-        return prefs.getString("access_token", null) != null;
     }
 }

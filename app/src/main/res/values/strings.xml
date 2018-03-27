@@ -34,4 +34,8 @@
         completions."
     </string>
     <string name="menu_text_logout">Logout</string>
+    <string name="your_cellphone_number">Your cellphone number</string>
+    <string name="invalid_number">Invalid number</string>
+    <string name="confirmation_sms">We\'ve sent you a confirmation SMS</string>
+    <string name="confirmation_sms_failure">Confirmation SMS could not be sent</string>
 </resources>

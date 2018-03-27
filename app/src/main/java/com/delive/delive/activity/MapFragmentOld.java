@@ -1,15 +1,21 @@
 package com.delive.delive.activity;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.view.View;
 import android.widget.Toast;
 
+import com.delive.delive.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
@@ -17,8 +23,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-public class MapFragment extends SupportMapFragment implements OnMapReadyCallback, LocationSource.OnLocationChangedListener {
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
+public class MapFragmentOld extends SupportMapFragment implements OnMapReadyCallback, LocationSource.OnLocationChangedListener {
+
+    private static final int REQUEST_FINE_LOCATION = 0;
     private GoogleMap mMap;
     private LocationManager locationManager;
 
@@ -43,17 +55,25 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         mMap = googleMap;
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        loadMap();
+    }
+
+    private void loadMap(){
+
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
 
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (checkSelfPermission(getContext(), ACCESS_FINE_LOCATION) != PERMISSION_GRANTED/* && checkSelfPermission(getContext(), ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED*/) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                return;
+            }
+            if (checkSelfPermission(getContext(), ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
+                return;
+            }
+
+            requestPermissions(new String[]{ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
+
             return;
         }
 
@@ -62,6 +82,12 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         moveMap(currentLocation.getLatitude(), currentLocation.getLongitude(), 15);
 
         mMap.setMyLocationEnabled(true);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        loadMap();
     }
 
     @Override

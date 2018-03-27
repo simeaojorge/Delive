@@ -14,6 +14,17 @@ public class User {
     @SerializedName("documentId")
     @Expose
     private String documentId;
+
+    @SerializedName("phone_number")
+    @Expose
+    private String phoneNumber;
+    @SerializedName("verification_code")
+    @Expose
+    private String verificationCode;
+    @SerializedName("verification_code_date")
+    @Expose
+    private String verificationCodeDate;
+
     @SerializedName("email")
     @Expose
     private String email;
@@ -32,14 +43,6 @@ public class User {
     @SerializedName("created")
     @Expose
     private String created;
-
-    public User(String name, String documentId, String email, String password, String status) {
-        this.name = name;
-        this.documentId = documentId;
-        this.email = email;
-        this.password = password;
-        this.status = status;
-    }
 
     public String getId() {
         return id;
@@ -63,6 +66,30 @@ public class User {
 
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public String getVerificationCodeDate() {
+        return verificationCodeDate;
+    }
+
+    public void setVerificationCodeDate(String verificationCodeDate) {
+        this.verificationCodeDate = verificationCodeDate;
     }
 
     public String getEmail() {

@@ -7,14 +7,13 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.delive.delive.R;
 import com.delive.delive.model.User;
 import com.delive.delive.restfull.ApiClient;
+import com.delive.delive.restfull.UserClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,12 +21,12 @@ import retrofit2.Response;
 
 import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivityOld extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_register_old);
 
         final EditText document = (EditText) findViewById(R.id.text_cpf);
         final EditText name = (EditText) findViewById(R.id.text_name);
@@ -40,11 +39,11 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(validateRegister(RegisterActivity.this)) {
+                if(validateRegister(RegisterActivityOld.this)) {
 
-                    User user = new User(name.getText().toString(), document.getText().toString(), email.getText().toString(), password.getText().toString(), "pending");
+                    User user = new User();
 
-                    ApiClient api = ApiClient.retrofit.create(ApiClient.class);
+                    UserClient api = ApiClient.create(UserClient.class);
                     final Call<User> call = api.createUser(user);
                     call.enqueue(new Callback<User>() {
                         @Override
