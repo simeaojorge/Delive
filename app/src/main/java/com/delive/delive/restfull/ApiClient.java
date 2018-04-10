@@ -9,7 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static String BASE_URL = "http://192.168.15.122:3000/";
+//    private static String BASE_URL = "http://ec2-52-67-36-43.sa-east-1.compute.amazonaws.com:3000";
+    private static String BASE_URL = "http://192.168.1.115:3000";
+
     private static Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())

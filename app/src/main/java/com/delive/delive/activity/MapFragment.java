@@ -28,7 +28,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
-public class MapFragmentOld extends SupportMapFragment implements OnMapReadyCallback, LocationSource.OnLocationChangedListener {
+public class MapFragment extends SupportMapFragment implements OnMapReadyCallback, LocationSource.OnLocationChangedListener {
 
     private static final int REQUEST_FINE_LOCATION = 0;
     private GoogleMap mMap;

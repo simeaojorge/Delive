@@ -1,10 +1,13 @@
 package com.delive.delive.activity;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.delive.delive.R;
@@ -30,11 +33,21 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         phoneInput = findViewById(R.id.login_cellphone);
+
+        if(isUserLoggedIn()){
+            Intent intent = new Intent(getBaseContext(), FrontPageActivity.class);
+            startActivity(intent);
+        }
     }
 
-    public void sendNumber(View view) {
+    public void sendNumber(final View view) {
 
         if(phoneInput.isValid()){
+
+            final Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_translate_right);
+
+            //FloatingActionButton sendTel = findViewById(R.id.login_float_button);
+            view.startAnimation(animation);
 
             User user = new User();
             user.setPhoneNumber(phoneInput.getNumber());
@@ -45,8 +58,26 @@ public class MainActivity extends Activity {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
 
+                    final User userArray = response.body();
+
                     if (response.isSuccessful()) {
-                        Toast.makeText(getBaseContext(), R.string.confirmation_sms, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getBaseContext(), R.string.confirmation_sms, Toast.LENGTH_SHORT).show();
+                        Intent intent = null;
+                        if(userArray.getStatus().equalsIgnoreCase(User.status_pending)) {
+                            intent = new Intent(view.getContext(), AccountActivation.class);
+                            intent.putExtra("verification_code", userArray.getVerificationCode());
+                            intent.putExtra("id", userArray.getId());
+                        }
+                        else if(userArray.getStatus().equalsIgnoreCase(User.status_verified)){
+                            intent = new Intent(view.getContext(), FirstAccessActivity.class);
+                            intent.putExtra("id", userArray.getId());
+                        }
+                        else{
+                            intent = new Intent(view.getContext(), LoginPasswordActivity.class);
+                            intent.putExtra("id", userArray.getId());
+                        }
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.anim_translate_left, R.anim.anim_translate_from_right);
                     } else {
                         Toast.makeText(getBaseContext(), R.string.confirmation_sms_failure, Toast.LENGTH_SHORT).show();
                     }
@@ -61,5 +92,11 @@ public class MainActivity extends Activity {
         else{
             Toast.makeText(this, R.string.invalid_number, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean isUserLoggedIn(){
+
+        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        return prefs.getString("access_token", null) != null;
     }
 }

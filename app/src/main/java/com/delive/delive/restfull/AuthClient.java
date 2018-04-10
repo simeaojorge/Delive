@@ -13,5 +13,5 @@ import retrofit2.http.POST;
 public interface AuthClient {
 
     @POST("auth")
-    public abstract Call<com.delive.delive.model.Auth> login(@Body LoginInformation loginInformation);
+    Call<com.delive.delive.model.Auth> login(@Body LoginInformation loginInformation);
 }

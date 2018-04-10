@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -15,11 +16,17 @@ import retrofit2.http.Path;
 public interface UserClient {
 
     @GET("users")
-    public abstract Call<com.delive.delive.model.User> getUsers();
+    Call<com.delive.delive.model.User> getUsers();
 
     @GET("users/{user}")
-    public abstract Call<com.delive.delive.model.User> getUser(@Path("user") String user);
+    Call<com.delive.delive.model.User> getUser(@Path("user") String user);
+
+    @GET("users/phone_number/{phoneNumber}")
+    Call<com.delive.delive.model.User> getUserByPhone(@Path("user/phone_number") String phoneNumber);
 
     @POST("users")
-    public abstract Call<com.delive.delive.model.User> createUser(@Body User user);
+    Call<com.delive.delive.model.User> createUser(@Body User user);
+
+    @PUT("users/{id}")
+    Call<com.delive.delive.model.User> updateUser(@Path("id") String id, @Body User user);
 }

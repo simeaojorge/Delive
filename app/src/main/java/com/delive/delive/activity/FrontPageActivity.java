@@ -19,7 +19,7 @@ import android.view.MenuItem;
 
 import com.delive.delive.R;
 
-public class MainActivityOld extends AppCompatActivity
+public class FrontPageActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FragmentManager fragmentManager;
@@ -27,7 +27,7 @@ public class MainActivityOld extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_old);
+        setContentView(R.layout.front_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -111,6 +111,8 @@ public class MainActivityOld extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             SharedPreferences.Editor editor = getSharedPreferences("myPrefs", MODE_PRIVATE).edit();
             editor.clear().apply();
+            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -120,7 +122,7 @@ public class MainActivityOld extends AppCompatActivity
 
     private void showMap(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.container, new MapFragmentOld(), "Maps Fragment");
+        transaction.replace(R.id.container, new MapFragment(), "Maps Fragment");
         transaction.commit();
     }
 

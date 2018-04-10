@@ -38,4 +38,15 @@
     <string name="invalid_number">Invalid number</string>
     <string name="confirmation_sms">We\'ve sent you a confirmation SMS</string>
     <string name="confirmation_sms_failure">Confirmation SMS could not be sent</string>
+    <string name="successfully_verified">Successfully verified</string>
+    <string name="verification_failed">Verification failed</string>
+    <string name="need_to_know_you_more">We need to know you more</string>
+    <string name="last_name">Last Name</string>
+    <string name="document_id">Document ID</string>
+    <string name="err_last_name">Last name please</string>
+    <string name="mail_not_valid">Mail is not valid.</string>
+    <string name="insert_password">Insert your password</string>
+    <string name="internal_error">Internal error.</string>
+    <string name="wrong_password">Wrong password.</string>
+    <string name="logging_in">Logging in...</string>
 </resources>

@@ -5,12 +5,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
+    public static final String status_pending = "pending";
+    public static final String status_verified = "verified";
+    public static final String status_completed = "completed";
+
     @SerializedName("_id")
     @Expose
     private String id;
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("last_name")
+    @Expose
+    private String lastName;
     @SerializedName("documentId")
     @Expose
     private String documentId;
@@ -138,5 +145,13 @@ public class User {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
