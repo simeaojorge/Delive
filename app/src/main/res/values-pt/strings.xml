@@ -24,7 +24,7 @@
     <string name="error_incorrect_password">A senha está incorreta</string>
     <string name="error_invalid_email">Email inválido</string>
     <string name="error_invalid_password">Senha muito curta</string>
-    <string name="title_activity_login">Entrar</string>
+    <string name="title_activity_front_page">Delive</string>
     <string name="prompt_password">Senha (opcional)</string>
     <string name="prompt_email">Email</string>
     <string name="permission_rationale">Necessária permissão de acesso a contatos</string>

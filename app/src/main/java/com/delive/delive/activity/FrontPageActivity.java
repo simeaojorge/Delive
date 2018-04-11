@@ -102,12 +102,6 @@ public class FrontPageActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_signIn) {
-            Intent intentLogin = new Intent(this, LoginActivityOld.class);
-            this.startActivity(intentLogin);
-        } else if (id == R.id.nav_signUp) {
-            Intent intentRegister = new Intent(this, RegisterActivityOld.class);
-            this.startActivity(intentRegister);
         } else if (id == R.id.nav_logout) {
             SharedPreferences.Editor editor = getSharedPreferences("myPrefs", MODE_PRIVATE).edit();
             editor.clear().apply();
@@ -128,18 +122,9 @@ public class FrontPageActivity extends AppCompatActivity
 
     private void userLoggedIn(NavigationView navigationView){
 
-        MenuItem vwSignIn = navigationView.getMenu().findItem(R.id.nav_signIn);
-        MenuItem vwLogout = navigationView.getMenu().findItem(R.id.nav_logout);
-
         if(isUserLoggedIn()){
-
-            vwSignIn.setVisible(false);
-            vwLogout.setVisible(true);
-        }
-        else{
-
-            vwLogout.setVisible(false);
-            vwSignIn.setVisible(true);
+            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(intent);
         }
     }
 

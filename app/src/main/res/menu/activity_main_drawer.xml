@@ -20,21 +20,12 @@
             android:title="Tools" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="">
         <menu>
-            <item
-                android:id="@+id/nav_signIn"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_text_signIn" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_text_logout"
-                android:visible="false"/>
-            <item
-                android:id="@+id/nav_signUp"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/menu_text_signUp" />
+                android:title="@string/menu_text_logout"/>
         </menu>
     </item>
 

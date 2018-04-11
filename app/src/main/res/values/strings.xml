@@ -19,7 +19,7 @@
     <string name="err_password">Password please</string>
     <string name="err_confirm_password">Passwords does not match</string>
     <string name="err_email">Email please</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_front_page">Delive</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
